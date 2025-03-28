@@ -26,7 +26,7 @@ El esqueleto entregado actualmente es una API sencilla que incluye una función 
 Capturas de pantalla de las pruebas realizadas:
 <img width="792" alt="Screenshot 2025-03-27 at 8 33 01 PM" src="https://github.com/user-attachments/assets/d2b2aa78-5e46-4162-842d-bad927b22791" />
 
-##Pasos para correr el código
+## Pasos para correr el código
 
 -Instalar la librería Flask.
 
@@ -39,7 +39,7 @@ pip3 install flask
  ```
 pip install flask 
 ```
-##Funcion GET en navegador 
+## Funcion GET en navegador 
 
 - Abrir el archivo main.py y ejecutar el codigo con algun IDE como VISUAL ESTUDIO CODE :
 
@@ -49,12 +49,12 @@ pip install flask
 http://localhost:5000/get-user/123
   ```
 
-##Probar la función POST utilizando Postman:
+## Probar la función POST utilizando Postman:
 - Descargar e instalar Postman.
 - Crear una nueva conexión y cambiar el método de solicitud de GET a POST.
 - Colocar la URL del servidor local con el endpoint:
  ```
-http://localhost:5000/get-user/123
+http://localhost:5000/create-user/
   ```
 - Ir a la opción **Body** en Postman, seleccionar **raw** y cambiar el formato a **JSON**.
 - Ingresar el siguiente objeto JSON como ejemplo:
