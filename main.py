@@ -55,7 +55,7 @@ def get_all_incidents():
 ## Metodo get por incidente_id
 @app.route("/incidents/<int:incident_id>", methods=["GET"])
 def get_incident_by_id(incident_id):
-    try:
+    try: ## se utiliza try para poder manejar errores y ya que este get solo se busca un elemento
         incident = Incident.query.get(incident_id)
         if not incident:
             return jsonify({"error": "Incident not found"}), 404
@@ -74,7 +74,7 @@ def get_incident_by_id(incident_id):
 ## Metodo post para crear un incidente
 @app.route("/incidents/", methods=["POST"])
 def create_incident():
-    try:
+    try: ## Se utiliza try para poder manejar errores y ya que este post crea un solo elemnto en la tabla 
         data = request.get_json()
         if not data or 'reporter' not in data or 'description' not in data:
             return jsonify({"error": "Invalid input"}), 400
@@ -89,5 +89,30 @@ def create_incident():
         return jsonify({"message": "Incident created", "incident_id": new_incident.id}), 201
     except Exception as e:
         return jsonify({"error": "An error occurred", "details": str(e)}), 500
+
+
+##Metodo put para actualizar un incidente por id 
+@app.route("/incidents/<int:incident_id>", methods=["PUT"])
+def update_incident(incident_id):
+    try: ## Se utiliza try para poder manejar errores y ya que este put actualiza un solo elemento
+        incident = Incident.query.get(incident_id)
+        if not incident:
+            return jsonify({"error": "Incident not found"}), 404
+
+        data = request.get_json()
+        if 'reporter' in data:
+            incident.reporter = data['reporter']
+        if 'description' in data:
+            incident.description = data['description']
+        if 'status' in data:
+            incident.status = data['status']
+
+        db.session.commit()
+
+        return jsonify({"message": "Incident updated"}), 200
+    except Exception as e:
+        return jsonify({"error": "An error occurred", "details": str(e)}), 500
+    
+    
 if __name__ == "__main__":
     app.run(debug=True)
