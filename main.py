@@ -35,6 +35,8 @@ with app.app_context():
     except Exception as e:
         print("XX Error al conectar con la base de datosXX", e)
 
+##------------------------GETS---------------------------
+#--------------------------------------------------------
 ## Metodo get para lo incidentes 
 @app.route("/incidents/", methods=["GET"])
 def get_all_incidents():
@@ -61,13 +63,31 @@ def get_incident_by_id(incident_id):
         result = {
             "id": incident.id,
             "reporter": incident.reporter,
-            "description": incident.description,  # Fixed typo here
-            "status": incident.status,            # Fixed typo here
-            "created_at": incident.created_at     # Fixed typo here
+            "description": incident.description,  
+            "status": incident.status,            
+            "created_at": incident.created_at     
         }
         return jsonify(result), 200
     except Exception as e:
         return jsonify({"error": "An error occurred", "details": str(e)}), 500
+#--------------------------------------------------------
+## Metodo post para crear un incidente
+@app.route("/incidents/", methods=["POST"])
+def create_incident():
+    try:
+        data = request.get_json()
+        if not data or 'reporter' not in data or 'description' not in data:
+            return jsonify({"error": "Invalid input"}), 400
 
+        new_incident = Incident(
+            reporter=data['reporter'],
+            description=data['description']
+        )
+        db.session.add(new_incident)
+        db.session.commit()
+
+        return jsonify({"message": "Incident created", "incident_id": new_incident.id}), 201
+    except Exception as e:
+        return jsonify({"error": "An error occurred", "details": str(e)}), 500
 if __name__ == "__main__":
     app.run(debug=True)
