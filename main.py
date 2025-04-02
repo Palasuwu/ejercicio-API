@@ -113,6 +113,19 @@ def update_incident(incident_id):
     except Exception as e:
         return jsonify({"error": "An error occurred", "details": str(e)}), 500
     
-    
+##Metodo delete poor id 
+@app.route("/incidents/<int:incident_id>", methods=["DELETE"])
+def delete_incident(incident_id):
+    try: ## Se utiliza try para poder manejar errores y ya que este delete elimina un solo elemento
+        incident = Incident.query.get(incident_id)
+        if not incident:
+            return jsonify({"error": "Incident not found"}), 404
+
+        db.session.delete(incident)
+        db.session.commit()
+
+        return jsonify({"message": "Incident deleted"}), 200
+    except Exception as e:
+        return jsonify({"error": "An error occurred", "details": str(e)}), 500
 if __name__ == "__main__":
     app.run(debug=True)
