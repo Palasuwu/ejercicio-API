@@ -2,69 +2,94 @@
 
 Este proyecto corresponde al laboratorio de APIs de la clase de Tecnologías Web. La API está desarrollada en Python utilizando el framework Flask y se ha probado en un servidor local.
 
-## Descripción
+## Descripción parte 1 
 El esqueleto entregado actualmente es una API sencilla que incluye una función GET para obtener información de un usuario. La información retornada incluye el nombre, el user-id y el hobby del usuario. Además, se ha implementado una función POST que fue probada utilizando Postman.
+
+## Descripcion parte 2 
+La api realizada se basa en un sistema de tickets de incidentes de dispositivos en un entorno laboral interno . La api se conecta a una base de datos de PostgresSQL . Tiene distintas funciones , tiene un GET general que nos das todos los incidentes y sus datos , un GET por ID este nos da un incidente especifico dentro de la base de datos , un metodo POST para crear un ticket de Inciente , un metodo PUT  para actualizar los datos dentro de un incidente existente por ID y un metodo DELETE que borra un incidente de la base de datos por su ID . 
 
 ## Tecnologías utilizadas
 - Python
 - Flask
 - Visual Studio Code
 - Postman
+- flask_sqlalchemy
+- psycopg2-binary
 
-## Tecnologias Coinsideradas para el futuro 
+## Requisitos para probar la api localmente 
+- Python 3.8 o superior instalado.
 
-- PostgresSQL
-- MySql 
+- PostgreSQL instalado.
 
-# Imágenes de Prueba utilizando 
-## Se utilizo la extension de VScode "Thunder Client" para el GET 
+- Un editor de código como Visual Studio Code (opcional).
 
-<img width="836" alt="Screenshot 2025-03-27 at 8 59 48 PM" src="https://github.com/user-attachments/assets/0847e5a6-23e7-4ef7-8b8b-964061e5a5fb" />
+- El programa de Postman (para probar los endpoints).
 
+### 1. Instalar PostgreSQL
 
-## Se utilizo la aplicacion local "POSTMAN" para probar el POST 
-Capturas de pantalla de las pruebas realizadas:
-<img width="792" alt="Screenshot 2025-03-27 at 8 33 01 PM" src="https://github.com/user-attachments/assets/d2b2aa78-5e46-4162-842d-bad927b22791" />
+Descarga e instala PostgreSQL desde el sitio oficial:
 
-## Pasos para correr el código
+https://www.postgresql.org/download/
 
--Instalar la librería Flask.
+Recuerda guardar:
+- Tu **nombre de usuario** (por defecto: `postgres`)
+- Tu **contraseña**
+- El **número de puerto** (por defecto: `5432`)
 
-- En macOS y Linux:
- ```
-pip3 install flask 
- ```
+---
 
-- En Windows:
- ```
-pip install flask 
+### 2. Instalar librerías necesarias
+
+#### En macOS o Linux:
+
+```terminal
+
+pip3 install flask flask_sqlalchemy psycopg2-binary
+
 ```
-## Funcion GET en navegador 
+## Posible problema al instalar `psycopg2-binary` en macOS
 
-- Abrir el archivo main.py y ejecutar el codigo con algun IDE como VISUAL ESTUDIO CODE :
+Si al instalar ves un error como:
 
+```
+pg_config executable not found.
+```
 
-- Probar la función GET abriendo el servidor local en el navegador y agregando a la URL:
- ```
-http://localhost:5000/get-user/123
-  ```
+Sigue estos pasos:
 
-## Probar la función POST utilizando Postman:
-- Descargar e instalar Postman.
-- Crear una nueva conexión y cambiar el método de solicitud de GET a POST.
-- Colocar la URL del servidor local con el endpoint:
- ```
-http://localhost:5000/create-user/
-  ```
-- Ir a la opción **Body** en Postman, seleccionar **raw** y cambiar el formato a **JSON**.
-- Ingresar el siguiente objeto JSON como ejemplo:
-  ```json
-  {
-    "username": "Jorge"
-  }
-  ```
-- Pulsar el botón azul **SEND**.
-- Si la solicitud es exitosa, aparecerá una consola mostrando el objeto enviado junto con el mensaje **201 CREATED** en la parte superior.
+1. Encuentra el archivo `pg_config`:
+
+```bash
+find / -name pg_config 2>/dev/null
+```
+
+Ejemplo de resultado:
+
+```
+/Library/PostgreSQL/17/bin/pg_config
+```
+
+2. Agrega esa ruta a tu entorno temporalmente:
+
+```bash
+export PATH="/Library/PostgreSQL/17/bin:$PATH"
+```
+
+3. Instala de nuevo:
+
+```bash
+pip install psycopg2-binary
+```
+
+---
+#### En Windows:
+
+```bash
+
+pip install flask flask_sqlalchemy psycopg2-binary
+
+```
+
 
 
    
