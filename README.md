@@ -31,10 +31,6 @@ Descarga e instala PostgreSQL desde el sitio oficial:
 
 https://www.postgresql.org/download/
 
-Recuerda guardar:
-- Tu **nombre de usuario** (por defecto: `postgres`)
-- Tu **contraseña**
-- El **número de puerto** (por defecto: `5432`)
 
 ---
 
