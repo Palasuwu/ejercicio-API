@@ -270,5 +270,12 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 <img width="501" alt="Screenshot 2025-04-10 at 9 03 01 PM" src="https://github.com/user-attachments/assets/0e1de8fa-e154-4300-8b1f-d08cd2e11c0c" />
 
+* Se me habia olvidado el editar asi que aca esta .
+
+  
+<img width="801" alt="Screenshot 2025-04-10 at 9 11 59 PM" src="https://github.com/user-attachments/assets/1bcd5242-16fa-4fab-b029-85b9c7aeee5f" />
+
+  
+
 Jorge Palacios - 231385
 
