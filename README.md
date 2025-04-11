@@ -259,7 +259,16 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
 ---
-   
+
+### Prueba FrontEnd exitosa 
+
+<img width="719" alt="Screenshot 2025-04-08 at 8 37 26 PM" src="https://github.com/user-attachments/assets/f004d3b4-656c-4348-aefe-34e129d1b113" />
+
+## Entrega abril 10 
+
+<img width="803" alt="Screenshot 2025-04-10 at 8 57 08 PM" src="https://github.com/user-attachments/assets/9aee4bae-cff8-416d-98a3-77bedeafd52e" />
+
+<img width="501" alt="Screenshot 2025-04-10 at 9 03 01 PM" src="https://github.com/user-attachments/assets/0e1de8fa-e154-4300-8b1f-d08cd2e11c0c" />
 
 Jorge Palacios - 231385
 
