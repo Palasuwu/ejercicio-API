@@ -1,5 +1,7 @@
 const apiURL = "http://127.0.0.1:5000/incidents/";
 
+let editingIncidentId = null; // Variable to track the incident being edited
+
 // Crea la estructura de la pagina
 document.addEventListener("DOMContentLoaded", () => {
   // Crear y agregar el titulo
@@ -95,37 +97,68 @@ document.addEventListener("DOMContentLoaded", () => {
     const description = document.getElementById("description").value;
     const status = document.getElementById("status").value;
 
-    const newIncident = {
+    const incidentData = {
       reporter,
       description,
       status,
     };
 
-    fetch(apiURL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newIncident),
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error("Error al enviar el incidente");
-        }
-        return response.json();
+    if (editingIncidentId) {
+      // Si se esta editando un incidente, enviar una solicitud PUT
+      fetch(`${apiURL}${editingIncidentId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(incidentData),
       })
-      .then(() => {
-        alert("Incidente enviado con exito");
-        document.getElementById("incident-form").reset(); // Limpiar el formulario
-        // Actualizar la lista de incidentes
-        return fetch(apiURL)
-          .then(response => response.json())
-          .then(updatedData => renderIncidents(updatedData));
+        .then(response => {
+          if (!response.ok) {
+            throw new Error("Error al actualizar el incidente");
+          }
+          return response.json();
+        })
+        .then(() => {
+          alert("Incidente actualizado con exito");
+          editingIncidentId = null; // Reiniciar el ID de edicion
+          document.getElementById("incident-form").reset(); // Limpiar el formulario
+          // Actualizar la lista de incidentes
+          return fetch(apiURL)
+            .then(response => response.json())
+            .then(updatedData => renderIncidents(updatedData));
+        })
+        .catch(error => {
+          console.error("Error al actualizar el incidente:", error);
+          alert("No se pudo actualizar el incidente.");
+        });
+    } else {
+      // Si no se esta editando, crear un nuevo incidente
+      fetch(apiURL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(incidentData),
       })
-      .catch(error => {
-        console.error("Error al enviar el incidente:", error);
-        alert("No se pudo enviar el incidente.");
-      });
+        .then(response => {
+          if (!response.ok) {
+            throw new Error("Error al enviar el incidente");
+          }
+          return response.json();
+        })
+        .then(() => {
+          alert("Incidente enviado con exito");
+          document.getElementById("incident-form").reset(); // Limpiar el formulario
+          // Actualizar la lista de incidentes
+          return fetch(apiURL)
+            .then(response => response.json())
+            .then(updatedData => renderIncidents(updatedData));
+        })
+        .catch(error => {
+          console.error("Error al enviar el incidente:", error);
+          alert("No se pudo enviar el incidente.");
+        });
+    }
   });
 });
 
@@ -160,7 +193,6 @@ function renderIncidents(data) {
 
       // Crear y agregar el boton de eliminar
       const deleteButton = document.createElement("button");
-      deleteButton.classList.add("delete-btn");
       deleteButton.textContent = "X";
       deleteButton.style.position = "absolute";
       deleteButton.style.top = "5px";
@@ -172,18 +204,38 @@ function renderIncidents(data) {
       deleteButton.style.width = "20px";
       deleteButton.style.height = "20px";
       deleteButton.style.cursor = "pointer";
-      deleteButton.style.fontSize = "14px";
-      deleteButton.style.lineHeight = "18px";
-      deleteButton.style.textAlign = "center";
       deleteButton.addEventListener("click", function () {
         deleteIncident(incident.id);
       });
       div.appendChild(deleteButton);
 
+      // Crear y agregar el boton de editar
+      const editButton = document.createElement("button");
+      editButton.textContent = "Editar";
+      editButton.style.marginTop = "10px";
+      editButton.style.background = "blue";
+      editButton.style.color = "white";
+      editButton.style.border = "none";
+      editButton.style.borderRadius = "4px";
+      editButton.style.padding = "5px 10px";
+      editButton.style.cursor = "pointer";
+      editButton.addEventListener("click", function () {
+        populateFormForEdit(incident);
+      });
+      div.appendChild(editButton);
+
       // Agregar el contenedor del incidente a la lista principal
       container.appendChild(div);
     });
   }
+}
+
+// Funcion para llenar el formulario con los datos del incidente a editar
+function populateFormForEdit(incident) {
+  document.getElementById("reporter").value = incident.reporter;
+  document.getElementById("description").value = incident.description;
+  document.getElementById("status").value = incident.status;
+  editingIncidentId = incident.id; // Guardar el ID del incidente que se esta editando
 }
 
 // Funcion para eliminar un incidente
